@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>My Submissions</title>
+    <link rel="stylesheet" href="style1.css">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    	
+        .assignment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top:50px;
+        }
+
+        .assignment-table th, .assignment-table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+
+        .assignment-table th {
+            background-color: #f4f4f4;
+        }
+
+        .assignment-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .assignment-table tr:hover {
+            background-color: #f1f1f1;
+        }
+	
+        .assignment-table a {
+            display: inline-block;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            color: white;
+            
+        }
+
+        .submit-btn {
+            background-color: #4CAF50;
+        }
+
+        .view-btn {
+            background-color: #2196F3;
+        }
+
+        .assignment-table a:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <div class="logo-details">
+        <i class='bx bxl-c-plus-plus'></i>
+        <span class="logo_name">Learn</span>
+    </div>
+    <ul class="nav-links">
+        <li>
+            <a href="dashboard.html">
+                <i class='bx bx-grid-alt'></i>
+                <span class="links_name">Dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a href="courses.html">
+                <i class='bx bx-box'></i>
+                <span class="links_name">Courses</span>
+            </a>
+        </li>
+        <li>
+            <a href="assignmentslist.html">
+                <i class='bx bx-box'></i>
+                <span class="links_name">Assignments</span>
+            </a>
+        </li>
+        <li>
+            <a href="mysubmissions.html" class="active">
+                <i class='bx bx-menu sidebarBtn'></i>
+                <span class="links_name">My Submissions</span>
+            </a>
+        </li>
+        <li>
+            <a href="messages.html">
+                <i class='bx bx-message'></i>
+                <span class="links_name">Messages</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bx-cog'></i>
+                <span class="links_name">Setting</span>
+            </a>
+        </li>
+        <li class="log_out">
+            <a href="#">
+                <i class='bx bx-log-out'></i>
+                <span class="links_name">Log out</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<section class="home-section">
+    <nav>
+        <div class="sidebar-button">
+            <i class='bx bx-menu sidebarBtn'></i>
+            <span class="dashboard">My Submissions</span>
+        </div>
+        <div class="search-box">
+            <input type="text" placeholder="Search...">
+            <i class='bx bx-search'></i>
+        </div>
+        <div class="profile-details">
+            <img src="images/profile.jpg" alt="">
+            <span class="admin_name">Prem Shahi</span>
+            <i class='bx bx-chevron-down'></i>
+        </div>
+    </nav>
+
+    <div class="assignment-container">
+    
+        <h1>My Submitted Assignments</h1>
+        <div class="page">
+        <table class="assignment-table">
+            <thead>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Assignment Name</th>
+                    <th>Files</th>
+                    <th>Submission Date</th>
+                </tr>
+            </thead>
+            <tbody id="submissionTable">
+            </tbody>
+        </table>
+    </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            const submissionTable = document.getElementById('submissionTable');
+            const submittedInfo = localStorage.getItem('submittedInfo');
+            if (submittedInfo) {
+                const submissionDetails = JSON.parse(submittedInfo);
+
+                const row = document.createElement('tr');
+
+                const courseCell = document.createElement('td');
+                courseCell.textContent = submissionDetails.courseName;
+                row.appendChild(courseCell);
+
+                const assignmentCell = document.createElement('td');
+                assignmentCell.textContent = submissionDetails.assignmentName;
+                row.appendChild(assignmentCell);
+
+                const filesCell = document.createElement('td');
+                filesCell.textContent = submissionDetails.files.join(', ');
+                row.appendChild(filesCell);
+
+                const dateCell = document.createElement('td');
+                dateCell.textContent = submissionDetails.submissionDate;
+                row.appendChild(dateCell);
+
+                submissionTable.appendChild(row);
+            }
+        });
+    </script>
+</section>
+</body>
+</html>

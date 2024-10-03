@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignments List</title>
+    <link rel="stylesheet" href="style1.css">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<style>
+    h1 {
+        font-size: 24px;
+        color: #333;
+    }
+    .assignment-activity {
+        margin-bottom: 20px;
+    }
+    .assignment-activity p {
+        font-size: 16px;
+        color: #555;
+    }
+    .file-submissions {
+        border: 2px dashed #c1c1c1;
+        padding: 20px;
+        text-align: center;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        cursor: pointer;
+        min-height: 100px;
+        position: relative;
+    }
+    .file-submissions .icon {
+        font-size: 40px;
+        color: #0073e6;
+    }
+    .file-submissions p {
+        font-size: 14px;
+        color: #777;
+    }
+    .file-submissions:hover {
+        background-color: #e0f2ff;
+    }
+    .file-list {
+        margin-top: 10px;
+        color: #333;
+        font-size: 14px;
+        text-align: left;
+        max-height: 100px;
+        overflow-y: auto;
+    }
+    .buttons {
+        margin-top: 20px;
+        text-align: right;
+    }
+    .buttons button {
+        background-color: #0073e6;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-left: 10px;
+    }
+    .buttons button.cancel {
+        background-color: #aaa;
+    }
+    .buttons button:hover {
+        opacity: 0.9;
+    }
+    input[type="file"] {
+        display: none;
+    }
+</style>
+<body>
+    <div class="sidebar">
+        <div class="logo-details">
+            <i class='bx bxl-c-plus-plus'></i>
+            <span class="logo_name">Learn</span>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="dashboard.html">
+                    <i class='bx bx-grid-alt'></i>
+                    <span class="links_name">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="courses.html">
+                    <i class='bx bx-box'></i>
+                    <span class="links_name">Courses</span>
+                </a>
+            </li>
+            <li>
+                <a href="assignmentslist.html" class="active">
+                    <i class='bx bx-box'></i>
+                    <span class="links_name">Assignments</span>
+                </a>
+            </li>
+            <li>
+                <a href="mysubmissions.html">
+                    <i class='bx bx-box'></i>
+                    <span class="links_name">My Submissions</span>
+                </a>
+            </li>
+            <li>
+                <a href="messages.html">
+                    <i class='bx bx-message'></i>
+                    <span class="links_name">Messages</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class='bx bx-cog'></i>
+                    <span class="links_name">Setting</span>
+                </a>
+            </li>
+            <li class="log_out">
+                <a href="#">
+                    <i class='bx bx-log-out'></i>
+                    <span class="links_name">Log out</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <section class="home-section">
+        <nav>
+            <div class="sidebar-button">
+                <i class='bx bx-menu sidebarBtn'></i>
+                <span class="dashboard">Assignments</span>
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="Search...">
+                <i class='bx bx-search'></i>
+            </div>
+            <div class="profile-details">
+                <img src="images/profile.jpg" alt="">
+                <span class="admin_name">Prem Shahi</span>
+                <i class='bx bx-chevron-down'></i>
+            </div>
+        </nav>
+        <div class="assignment-container">
+            <h1>Assignment Activity</h1>
+            <div class="assignment-activity">
+                <p>Write a short description about your assignment</p>
+            </div>
+
+            <div class="file-submissions" id="fileSubmissionBox">
+                <div class="icon">📁</div>
+                <p>Maximum file size: 1 MB, Maximum number of files: 10</p>
+                <p>Click here to upload PDF files or drag and drop files.</p>
+                <input type="file" id="fileInput" accept=".pdf" multiple>
+                <div class="file-list" id="fileList"></div>
+            </div>
+
+            <div class="buttons">
+                <button class="save" id="saveButton">Save changes</button>
+                <button class="cancel">Cancel</button>
+            </div>
+        </div>
+
+        <script>
+            const fileSubmissionBox = document.getElementById('fileSubmissionBox');
+            const fileInput = document.getElementById('fileInput');
+            const fileList = document.getElementById('fileList');
+            let fileNames = [];
+
+            fileSubmissionBox.addEventListener('click', function () {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', function (event) {
+                const selectedFiles = event.target.files;
+                fileList.innerHTML = ""; // Clear the file list
+
+                if (selectedFiles.length > 0) {
+                    fileNames = [];
+                    for (let i = 0; i < selectedFiles.length; i++) {
+                        const fileName = selectedFiles[i].name;
+                        fileNames.push(fileName);
+                        const fileItem = document.createElement('div');
+                        fileItem.textContent = fileName;
+                        fileList.appendChild(fileItem);
+                    }
+                }
+            });
+
+            document.getElementById('saveButton').addEventListener('click', function () {
+                // Store file names and other submission details in localStorage
+                const submissionDetails = {
+                    courseName: "Your Course Name",
+                    assignmentName: "Your Assignment Name",
+                    files: fileNames,
+                    submissionDate: new Date().toLocaleDateString()
+                };
+                localStorage.setItem('submittedInfo', JSON.stringify(submissionDetails));
+
+                // Redirect to mysubmissions.html
+                window.location.href = 'mysubmissions.html';
+            });
+        </script>
+    </section>
+</body>
+</html>
